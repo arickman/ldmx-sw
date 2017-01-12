@@ -26,7 +26,9 @@
 //-------------//
 //   LDMX SW   //
 //-------------//
-#include "Event/SimEvent.h"
+//#include "Event/SimEvent.h"
+#include "Event/EventFile.h"
+#include "Event/EventImpl.h"
 
 
 using namespace std; 
@@ -97,11 +99,25 @@ int main(int argc, char** argv) {
     // Loop through the ROOT files and process them
     for (auto file : files) { 
         
+        event::EventFile simFile(file, false); 
+        string reconFilePath 
+            = file.replace(file.begin() + file.find(".root"), file.end(), "_recon.root");
+        event::EventFile reconFile(reconFilePath, &simFile);
+        event::EventImpl event("recon");
+        reconFile.setupEvent(&event); 
+
+        double event_n{0}; 
+        while (reconFile.nextEvent()) {
+            std::cout << "Event: " << event_n++ << std::endl;
+        }
+
+        reconFile.close(); 
+        simFile.close(); 
         // Open the ROOT file. If the file can't be opened, exit the application.
+        /*
         TFile* simFile = new TFile(file.c_str());
         TTree* simTree = static_cast<TTree*>(simFile->Get("LDMX_Event"));
         
-        string reconFilePath = file.replace(file.begin() + file.find(".root"), file.end(), "_recon.root");
         TFile* reconFile = new TFile(reconFilePath.c_str(), "recreate"); 
         TTree* reconTree = simTree->CloneTree(0); 
 
@@ -117,6 +133,6 @@ int main(int argc, char** argv) {
         reconTree->AutoSave();
         
         delete simFile;
-        delete reconFile;  
+        delete reconFile;  */
     } 
 }
