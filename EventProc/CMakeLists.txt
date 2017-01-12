@@ -5,6 +5,7 @@ find_package(ROOT REQUIRED COMPONENTS Core RIO TreePlayer)
 module(
   NAME EventProc
   EXTRA_INCLUDE_DIRS ${ROOT_INCLUDE_DIRS}
+  EXECUTABLES src/analyser.cxx
   EXTRA_LINK_LIBRARIES ${ROOT_LIBRARIES}
   DEPENDENCIES Event DetDescr
 )
