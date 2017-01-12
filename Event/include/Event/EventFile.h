@@ -17,6 +17,8 @@ class EventFile {
 
     public:
 
+        EventFile(const std::string& filename, std::string treeName, bool isOutputFile = false, int compressionLevel = 9);
+        
         EventFile(const std::string& filename, bool isOutputFile = false, int compressionLevel = 9);
 
         EventFile(const std::string& filename, EventFile* cloneParent, int compressionLevel = 9);
@@ -24,6 +26,8 @@ class EventFile {
         void addDrop(const std::string& rule);
 
         void setupEvent(EventImpl* evt);
+
+        EventImpl* getEvent() { return event_; };
 
         bool nextEvent();
 
