@@ -95,7 +95,7 @@ macro(MODULE)
     add_library(${MODULE_NAME} SHARED ${sources} ${MODULE_EXTRA_SOURCES})
    
     # add ROOT libraries to shared library target
-    target_link_libraries(${PROJECT_NAME} ${MODULE_EXTRA_LINK_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} ${MODULE_EXTRA_LINK_LIBRARIES} ${MODULE_DEPENDENCIES})
   
     # install the library
     install(TARGETS ${MODULE_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
