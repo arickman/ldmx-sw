@@ -33,12 +33,14 @@ namespace ldmx {
                 return true;
             }
 
-            void preTracking(const G4Track* aTrack) {
-                UserTrackInformation* userInfo = dynamic_cast<UserTrackInformation*>(aTrack->GetUserInformation());
-                if (!userInfo->getSaveFlag()) {
-                    userInfo->setSaveFlag(true);
-                }        
+            void preTracking(const G4Track* aTrack);
+
+            bool hasSteppingAction() {
+                return true;
             }
+
+            void stepping(const G4Step* step);            
+
     };
 }
 
