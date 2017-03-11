@@ -1,0 +1,19 @@
+/persistency/gdml/read detector.gdml
+
+/ldmx/biasing/enable /ldmx/biasing/particle gamma
+/ldmx/biasing/process photonNuclear
+/ldmx/biasing/volume Ecal
+/ldmx/biasing/xsec 1000
+/ldmx/biasing/threshold 2500
+
+#/random/setSeeds 77777 23465
+/run/initialize
+
+/ldmx/generators/root/open /u/br/omoreno/ldmx/data/mc/4pt0_gev_electrons_ecal_photonuc_v2_fieldmap/4pt0_gev_electrons_ecal_photonuc_v2_fieldmap_skim.root
+/ldmx/generators/root/useSeed
+
+/ldmx/persistency/root/file skim_test.root
+
+/ldmx/plugins/load PNTrackSaver
+
+/run/beamOn 100
