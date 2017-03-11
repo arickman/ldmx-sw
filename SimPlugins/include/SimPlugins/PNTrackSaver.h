@@ -37,10 +37,10 @@ namespace ldmx {
 
             void preTracking(const G4Track* aTrack) {
                 const G4VProcess* p = aTrack->GetCreatorProcess();
-                if (p && p->GetProcessName() == "photonNuclear") {
-                    std::cout << "[ PNTrackSaver ] : flagging PN track with ID " << aTrack->GetTrackID() << std::endl;
-                    std::cout << "  processType: " << p->GetProcessType() << std::endl;
-                    std::cout << "  processSubType: " << p->GetProcessSubType() << std::endl;
+                if (p && (p->GetProcessName() == "photonNuclear" || p->GetProcessName() == "biasWrapper(photonNuclear)")) {
+                    //std::cout << "[ PNTrackSaver ] : flagging PN track with ID " << aTrack->GetTrackID() << std::endl;
+                    //std::cout << "  processType: " << p->GetProcessType() << std::endl;
+                    //std::cout << "  processSubType: " << p->GetProcessSubType() << std::endl;
                     dynamic_cast<UserTrackInformation*>(aTrack->GetUserInformation())->setSaveFlag(true);
                 }
             }
