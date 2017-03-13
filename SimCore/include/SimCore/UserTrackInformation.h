@@ -7,6 +7,7 @@
 #define SIMCORE_USERTRACKINFORMATION_H_
 
 #include "G4VUserTrackInformation.hh"
+#include "G4ThreeVector.hh"
 
 namespace ldmx {
 
@@ -41,10 +42,20 @@ namespace ldmx {
              */
             void setSaveFlag(bool saveFlag) { saveFlag_ = saveFlag; }
 
+            const G4ThreeVector& getInitialMomentum() {
+                return initialMomentum_;
+            }
+
+            void setInitialMomentum(const G4ThreeVector& p) {
+                initialMomentum_.set(p.x(), p.y(), p.z());
+            }
+
         private:
 
             /** Flag for saving the track as a Trajectory. */
             bool saveFlag_{false};
+
+            G4ThreeVector initialMomentum_;
     };
 }
 

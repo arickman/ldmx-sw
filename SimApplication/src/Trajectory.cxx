@@ -1,7 +1,10 @@
 #include "SimApplication/Trajectory.h"
 
+#include "SimCore/UserTrackInformation.h"
+
 // Geant4
 #include "G4TrajectoryPoint.hh"
+#include "G4VProcess.hh"
 
 namespace ldmx {
 
@@ -19,10 +22,26 @@ Trajectory::Trajectory(const G4Track* aTrack)
     vertexPosition_ = aTrack->GetVertexPosition();
     energy_ = aTrack->GetTotalEnergy();
 
+    // Get the creator process type.  The sub-type must be used here to get
+    // the type for a specific physics process like photonuclear.
+    const G4VProcess* process = aTrack->GetCreatorProcess();
+    if (process) {
+        processType_ = process->GetProcessSubType();
+    }
+
     // Compute momentum by multiplying unit vector of vertex momentum by KE.
-    const G4ThreeVector& vmd = aTrack->GetVertexMomentumDirection(); 
-    G4double kE = aTrack->GetVertexKineticEnergy();
-    initialMomentum_ = G4ThreeVector(vmd[0] * kE, vmd[1] * kE, vmd[2] * kE);
+    //const G4ThreeVector& vmd = aTrack->GetVertexMomentumDirection();
+    //G4double kE = aTrack->GetVertexKineticEnergy();
+    //initialMomentum_ = G4ThreeVector(vmd[0] * kE, vmd[1] * kE, vmd[2] * kE);
+
+    UserTrackInformation* trackInfo = dynamic_cast<UserTrackInformation*>(aTrack->GetUserInformation());
+    const G4ThreeVector& p = trackInfo->getInitialMomentum();
+    initialMomentum_.set(p.x(), p.y(), p.z());
+    
+    //if (trackInfo->getInitialMomentum() != initialMomentum_) {
+    //    std::cout << "[ Trajectory ] : p from info " << trackInfo->getInitialMomentum()
+    //        << " does not match traj p " << initialMomentum_ << std::endl;
+    //}
 
     // If the track has not been stepped, then only the first point is added.
     // Otherwise, the track has already been stepped so we add also its last location
