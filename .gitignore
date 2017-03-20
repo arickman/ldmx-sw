@@ -3,8 +3,12 @@
 .settings
 .pydevproject
 build/
+build.*/
+bin/
+lib/
 rebuild.sh
 docs/doxygen.conf
 *~
 *#
 *.pyc
+/python
