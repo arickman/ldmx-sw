@@ -36,21 +36,27 @@ namespace ldmx {
                 }
 		if (ievt==0) {
 		  std::vector<ProductTag> pts=event.getProducts();
+		  std::cout << "\nDemonstration of printing out all the event contents\n";
 		  for (auto j: pts) {
-		    std::cout << j << std::endl;
+		    std::cout << "  " << j << std::endl;
 		  }
+		  std::cout << std::endl;
 		}
 		if (ievt==1) {
 		  std::vector<ProductTag> pts=event.searchProducts("","sim","");
+		  std::cout << "\nDemonstration of searching for all products with pass name 'sim'\n";
 		  for (auto j: pts) {
-		    std::cout << j << std::endl;
+		    std::cout << "   " << j << std::endl;
 		  }
+		  std::cout << std::endl;
 		}
 		if (ievt==2) {
 		  std::vector<ProductTag> pts=event.searchProducts(".*cal.*","","");
+		  std::cout << "\nDemonstration of searching for all products with 'cal' anywhere in the product name\n";
 		  for (auto j: pts) {
-		    std::cout << j << std::endl;
+		    std::cout << "   " << j << std::endl;
 		  }
+		  std::cout << std::endl;
 		}
 		ievt++;
             }
