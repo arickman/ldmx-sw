@@ -21,7 +21,7 @@ namespace ldmx {
     class DummyAnalyzer : public ldmx::Analyzer {
         public:
 
-            DummyAnalyzer(const std::string& name, ldmx::Process& process) : ldmx::Analyzer(name, process) {}
+      DummyAnalyzer(const std::string& name, ldmx::Process& process) : ldmx::Analyzer(name, process) { ievt=0; }
 
             virtual void configure(const ldmx::ParameterSet& ps) {
                 caloCol_=ps.getString("caloHitCollection");
@@ -34,6 +34,25 @@ namespace ldmx {
                     const ldmx::CalorimeterHit* chit=(const ldmx::CalorimeterHit*)(tca->At(i));
                     h_energy->Fill(chit->getEnergy());
                 }
+		if (ievt==0) {
+		  std::vector<ProductTag> pts=event.getProducts();
+		  for (auto j: pts) {
+		    std::cout << j << std::endl;
+		  }
+		}
+		if (ievt==1) {
+		  std::vector<ProductTag> pts=event.searchProducts("","sim","");
+		  for (auto j: pts) {
+		    std::cout << j << std::endl;
+		  }
+		}
+		if (ievt==2) {
+		  std::vector<ProductTag> pts=event.searchProducts(".*cal.*","","");
+		  for (auto j: pts) {
+		    std::cout << j << std::endl;
+		  }
+		}
+		ievt++;
             }
             virtual void onFileOpen() {
                 std::cout << "DummyAnalyzer: Opening a file!" << std::endl;
@@ -52,6 +71,7 @@ namespace ldmx {
         private:
             TH1* h_energy;
             std::string caloCol_;
+            int ievt;
     };
 }
 
